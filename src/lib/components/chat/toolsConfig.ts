@@ -1,0 +1,17 @@
+export const systemTools = [
+	{ id: "image_editing", name: "Edición de imagen", icon: "🖼️" },
+	{ id: "web_unroll", name: "desarrollo web", icon: "🌐" },
+	{ id: "depth_investigation", name: "Investigación en profundidad", icon: "🔍" },
+	{ id: "image_generation", name: "Generación de imágenes", icon: "🎨" },
+	{ id: "trip_planner", name: "Planificador de viajes", icon: "✈️" },
+	{ id: "artifacts", name: "Artefactos", icon: "📦" },
+	{ id: "video_generation", name: "Generación de Video", icon: "🎥" },
+	{ id: "code", name: "Código", icon: "💻" },
+	{ id: "make_a_plan", name: "Haz un plan", icon: "📝" },
+	{ id: "notices", name: "Noticias", icon: "📰" },
+	{ id: "analyze_image", name: "Analizar imagen", icon: "🔎" },
+	{ id: "summarize_text", name: "Resumir texto", icon: "📄" },
+	{ id: "get_advice", name: "Obtén consejo", icon: "💡" },
+	{ id: "help_write", name: "Ayúdame a escribir", icon: "✍️" },
+	{ id: "brainstorm", name: "Lluvia de ideas", icon: "🌪️" },
+];

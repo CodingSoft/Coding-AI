@@ -15,8 +15,6 @@
 	import titleUpdate from "$lib/stores/titleUpdate";
 	import WelcomeModal from "$lib/components/WelcomeModal.svelte";
 	import ExpandNavigation from "$lib/components/ExpandNavigation.svelte";
-	import { loginModalOpen } from "$lib/stores/loginModal";
-	import LoginModal from "$lib/components/LoginModal.svelte";
 	import { setContext } from "svelte";
 	import { handleResponse, useAPIClient } from "$lib/APIClient";
 	import { isAborted } from "$lib/stores/isAborted";
@@ -196,18 +194,22 @@
 		<meta property="og:description" content={publicConfig.PUBLIC_APP_DESCRIPTION} />
 	{/if}
 	<link rel="icon" href="{publicConfig.assetPath}/icon.svg" type="image/svg+xml" />
-	<link
-		rel="icon"
-		href="{publicConfig.assetPath}/favicon.svg"
-		type="image/svg+xml"
-		media="(prefers-color-scheme: light)"
-	/>
-	<link
-		rel="icon"
-		href="{publicConfig.assetPath}/favicon-dark.svg"
-		type="image/svg+xml"
-		media="(prefers-color-scheme: dark)"
-	/>
+	{#if publicConfig.PUBLIC_ORIGIN}
+		<link
+			rel="icon"
+			href="{publicConfig.assetPath}/favicon.svg"
+			type="image/svg+xml"
+			media="(prefers-color-scheme: light)"
+		/>
+		<link
+			rel="icon"
+			href="{publicConfig.assetPath}/favicon-dark.svg"
+			type="image/svg+xml"
+			media="(prefers-color-scheme: dark)"
+		/>
+	{:else}
+		<link rel="icon" href="{publicConfig.assetPath}/favicon-dev.svg" type="image/svg+xml" />
+	{/if}
 	<link rel="apple-touch-icon" href="{publicConfig.assetPath}/apple-touch-icon.png" />
 	<link rel="manifest" href="{publicConfig.assetPath}/manifest.json" />
 
@@ -222,14 +224,6 @@
 
 {#if showWelcome || (!data.user && data.loginEnabled)}
 	<WelcomeModal close={closeWelcomeModal} />
-{/if}
-
-{#if $loginModalOpen}
-	<LoginModal
-		onclose={() => {
-			$loginModalOpen = false;
-		}}
-	/>
 {/if}
 
 <BackgroundGenerationPoller />
@@ -262,7 +256,6 @@
 		<NavMenu
 			{conversations}
 			user={data.user}
-			canLogin={!data.user && data.loginEnabled}
 			ondeleteConversation={(id) => deleteConversation(id)}
 			oneditConversationTitle={(payload) => editConversationTitle(payload.id, payload.title)}
 		/>
@@ -273,7 +266,6 @@
 		<NavMenu
 			{conversations}
 			user={data.user}
-			canLogin={!data.user && data.loginEnabled}
 			ondeleteConversation={(id) => deleteConversation(id)}
 			oneditConversationTitle={(payload) => editConversationTitle(payload.id, payload.title)}
 		/>
@@ -285,7 +277,16 @@
 
 	{#if publicConfig.PUBLIC_PLAUSIBLE_SCRIPT_URL}
 		<script>
-			window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+			(window.plausible =
+				window.plausible ||
+				function () {
+					(plausible.q = plausible.q || []).push(arguments);
+				}),
+				(plausible.init =
+					plausible.init ||
+					function (i) {
+						plausible.o = i || {};
+					});
 			plausible.init();
 		</script>
 	{/if}
